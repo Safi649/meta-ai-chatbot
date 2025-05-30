@@ -5,8 +5,12 @@ from transformers import pipeline
 chatbot = pipeline("text-generation", model="mistralai/Mistral-7B-Instruct-v0.2", device_map="auto")
 
 def chat_with_ai(message):
-    response = chatbot(message, max_new_tokens=150, do_sample=True)[0]["generated_text"]
-    return response
+    # Custom reply for creator question
+    if "who is your creator" in message.lower():
+        return "I was created by Abbas Safi."
+    else:
+        response = chatbot(message, max_new_tokens=150, do_sample=True)[0]["generated_text"]
+        return response
 
 # Gradio interface
 iface = gr.Interface(
